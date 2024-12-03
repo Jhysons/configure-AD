@@ -22,8 +22,17 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 - Install Active Directory
 - Create Domain Admin User
-- Join Client-1 to Domain
+- Configure Active Directory
 - Setup Remote Desktop
+
+<h2>Connect to the Server via Remote Desktop</h2>
+
+
+Open Remote Desktop Connection: On your local machine, press Win + R, type mstsc, and press Enter.
+
+Enter the Server's IP Address: In the Remote Desktop Connection window, enter the IP address or hostname of the server you want to connect to and click Connect.
+
+Log In: Enter your credentials to log in to the server.
 
 <h2>Deployment and Configuration Steps</h2>
 
@@ -31,18 +40,40 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <img src="https://i.imgur.com/0W2jNdX.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Install AD DS: Log into DC-1 and install Active Directory Domain Services.
-Promote to DC: Set up a new forest (e.g., mydomain.com), restart, and log back into DC-1
-</p>
+Open Server Manager: Click on the Start menu, then select Server Manager.
+
+Add Roles and Features: In Server Manager, click on "Add Roles and Features".
+
+Role-based or feature-based installation: Select this option and click Next.
+
+Select the server: Choose the server you want to install AD DS on and click Next.
+
+Select server roles: Check the box for "Active Directory Domain Services" and click Next.
+
+Add features: Click "Add Features" when prompted, then click Next.
+
+Confirm installation selections: Review the selections and click Install.
 <br />
 
 <p>
 <img src="https://i.imgur.com/W4wHbmB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Create OUs: In ADUC, create Organizational Units (OUs).
-Create User: Create a new employee.Add to Group: Add Admins to the Domain Admins Security Group.
-Log in as Admin: Log out and log back in.
+Open the AD DS Configuration Wizard: After the installation completes, click on the flag icon in Server Manager and select "Promote this server to a domain controller".
+
+Deployment Configuration: Choose "Add a new forest" and enter a root domain name (e.g., example.com).
+
+Domain Controller Options: Select the forest and domain functional levels, and set a Directory Services Restore Mode (DSRM) password.
+
+DNS Options: Click Next (you might see a warning about DNS delegation, which you can ignore for now).
+
+Additional Options: Verify the NetBIOS name and click Next.
+
+Paths: Specify the locations for the AD database, log files, and SYSVOL folder, or leave the defaults and click Next.
+
+Review Options: Review your selections and click Next.
+
+Prerequisites Check: The wizard will run a prerequisites check. Once it passes, click Install.
 </p>
 <br />
 
@@ -50,12 +81,15 @@ Log in as Admin: Log out and log back in.
 <img src="https://i.imgur.com/itJLPQ6.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Set DNS: Set Client-1's DNS settings to the DC's Private IP address in the Azure Portal.
-Restart Client-1: Restart Client-1 from the Azure Portal.
-Join Domain: Log into Client-1 as the local admin and join it to the domain.
-Verify in ADUC: Verify Client-1 shows up in ADUC.
-Move to OU: Create a new OU named and move Client-1 into it.
-Create Users: Log into DC-1, create additional users.
-Verify Users: Verify the accounts in ADUC and attempt to log into Client-1 with one of the new accounts.  
+Open Active Directory Users and Computers: After the server restarts, open Server Manager, go to Tools, and select "Active Directory Users and Computers".
+
+Create Organizational Units (OUs): Right-click your domain, select New > Organizational Unit, and name it (e.g., "Users").
+
+Create Users: Right-click the OU you created, select New > User, and fill in the details.
+
+Create Groups: Right-click the OU, select New > Group, and name it
+Add Computers to the Domain: On client machines, go to System Properties, click "Change settings" under Computer name, domain, and workgroup settings, and join the domain.
+
+Assign Permissions: Use Active Directory Users and Computers to assign users to groups and set permissions.
 </p>
 <br />
